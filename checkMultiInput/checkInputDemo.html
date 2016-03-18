@@ -1,0 +1,57 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://d1.lashouimg.com/static/js/release/jquery-1.4.2.min.js" type="text/javascript"></script> 
+<script type="text/javascript" src="input.js"></script>
+<script type="text/javascript">
+
+//检查表单是否为空
+function checkForm()
+{
+	// 工作经验的输入判断，判断逻辑要合理清晰
+	var arr = new Array('企业名不能为空','职位名不能为空','工作开始时间不能为空','工作结束时间不能为空');
+	var res = checkKong2(".canlist5 input",4,arr);
+	if(res == 1){
+		// 用户全部填了该信息，判断文本域
+		var arr2 = new Array('职位描述不能为空');
+	 	if(!checkKong(".canlist5 textarea",1,arr2)){
+	 		return false;
+	 	}
+	}else if(res == 0){
+		// 用户的input标签有空的情况，返回false 为2没有填信息不做处理
+		return false;
+	}
+
+}
+</script>
+</head>
+<body>
+<h2>判断多个同名标签是否为空</h2>
+<form method = "post" action = "#" onsubmit = "return checkForm();">
+	<div class = "can5">
+		<div class = "canlist5">
+			<div>
+				企业名称：<input type="text" value="" size="20" name="jy_qiye[]"/><span>(请输入企业名称)</span>
+			</div>
+			<div>
+				职位名称：<input type="text" value="" size="20" name="jy_zhiwei[]"/><span>(请输入职位名称)</span>
+			</div>
+			<div class="g-tg-tr">
+				工作时间：<input type="text" value="" size="20" name="jy_stime[]" /> -至- <input type="text" value="" size="20" name="jy_etime[]" />
+			</div>
+			<div class="g-tg-tr2">
+				<div>
+					工作描述：
+				</div>
+				<div>
+					  <textarea name="jy_desc[]" cols="60" rows="6" style = "border: 1px solid #999;"></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+<input style = "width: 10%; height: 26px; line-height: 26px;" type="button" value="继续添加" name="btn" onclick = "addCan(5)"/>&nbsp;&nbsp;&nbsp;<input type="button" style = "width: 10%; height: 26px; line-height: 26px;" value="删除最后一条" name="btn" onclick = "delCan(5)"/>
+<br/><br/>
+<input type = "submit" name = "submit" value = "提交" />
+</form>
+</body>
+</html>
