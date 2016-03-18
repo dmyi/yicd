@@ -1,2 +1,0 @@
-# yicd
-codeyi
