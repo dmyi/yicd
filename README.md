@@ -1,2 +1,2 @@
 # yicd
-codeyi
+codeyi  similar way to different result!
