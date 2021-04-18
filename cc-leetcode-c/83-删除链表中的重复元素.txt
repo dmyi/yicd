@@ -1,0 +1,56 @@
+给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+
+示例 1:
+
+输入: 1->1->2
+输出: 1->2
+示例 2:
+
+输入: 1->1->2->3->3
+输出: 1->2->3
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+解题思路
+思路类似26-去重有序数组，首先已知的链表是有序的；
+定义int = tmp保存当前循环到的节点值，用于判断是否跳过；
+定义newHead保存首地址，cur指向循环的下一循环前的链表节点，为了移除链表；
+判断当前节点的值与tmp是否相等，如果相等则移除该节点后continue;
+循环完成返回newHead即是要返回的链表。
+代码
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* deleteDuplicates(struct ListNode* head){
+    if(head == NULL) return head;
+
+    struct ListNode *newHead = head;
+    struct ListNode *cur = NULL;
+    int tmp;
+    while(head != NULL) {
+        if((head == newHead) || (head->val != tmp)) {
+            tmp = head->val;
+            cur = head;
+        } else {
+            head = head->next;
+            cur->next = head;
+            continue;
+        }
+        head = head->next;
+    }
+
+    return newHead;
+}
+
+作者：dmyi
+链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/solution/83-shan-chu-lian-biao-zhong-de-zhong-fu-yuan-su-ti/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。

@@ -1,0 +1,111 @@
+设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+
+push(x) —— 将元素 x 推入栈中。
+pop() —— 删除栈顶的元素。
+top() —— 获取栈顶元素。
+getMin() —— 检索栈中的最小元素。
+ 
+
+示例:
+
+输入：
+["MinStack","push","push","push","getMin","pop","top","getMin"]
+[[],[-2],[0],[-3],[],[],[],[]]
+
+输出：
+[null,null,null,null,-3,null,0,-2]
+
+解释：
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin();   --> 返回 -3.
+minStack.pop();
+minStack.top();      --> 返回 0.
+minStack.getMin();   --> 返回 -2.
+ 
+
+提示：
+
+pop、top 和 getMin 操作总是在 非空栈 上调用。
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/min-stack
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+解题思路
+使用结构体作为一个整体栈元素实现，利用数组实现；
+定义栈的深度MAXVAL,用min数组保存前sp-1个元素时的最小栈元素；
+用min空间换取获取最小元素时间为O(1)的时间；
+初始化栈结构体，返回栈结构体指针；栈顶指针sp初始化为0且表示指向下一个空闲栈位置。
+代码
+
+#define MAXVAL 1000
+typedef struct {
+    int val[MAXVAL];
+    int min[MAXVAL];
+    int sp;
+} MinStack;
+
+/** initialize your data structure here. */
+
+MinStack* minStackCreate() {
+    MinStack* stack = (MinStack*)malloc(sizeof(MinStack));
+    stack->sp = 0;
+    return stack;
+}
+
+void minStackPush(MinStack* obj, int x) {
+    if(obj->sp == 0) {
+        obj->val[obj->sp] = x;
+        obj->min[obj->sp] = x;
+        obj->sp++;
+        return;
+    }
+
+    if(obj->sp < MAXVAL) {
+        obj->val[obj->sp] = x;
+        if(x < obj->min[obj->sp - 1])
+            obj->min[obj->sp] = x;
+        else 
+            obj->min[obj->sp] = obj->min[obj->sp - 1];
+        obj->sp++;
+    }
+}
+
+void minStackPop(MinStack* obj) {
+    if(obj->sp > 0)
+        obj->sp--;
+}
+
+int minStackTop(MinStack* obj) {
+    return obj->val[obj->sp - 1];
+}
+
+int minStackGetMin(MinStack* obj) {
+    return obj->min[obj->sp - 1];
+}
+
+void minStackFree(MinStack* obj) {
+    free(obj);
+}
+
+/**
+ * Your MinStack struct will be instantiated and called as such:
+ * MinStack* obj = minStackCreate();
+ * minStackPush(obj, x);
+ 
+ * minStackPop(obj);
+ 
+ * int param_3 = minStackTop(obj);
+ 
+ * int param_4 = minStackGetMin(obj);
+ 
+ * minStackFree(obj);
+*/
+
+作者：dmyi
+链接：https://leetcode-cn.com/problems/min-stack/solution/155-zui-xiao-zhan-ti-jie-by-dmyi/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。

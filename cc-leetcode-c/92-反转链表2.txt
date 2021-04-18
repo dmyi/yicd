@@ -1,0 +1,81 @@
+反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。
+
+说明:
+1 ≤ m ≤ n ≤ 链表长度。
+
+示例:
+
+输入: 1->2->3->4->5->NULL, m = 2, n = 4
+输出: 1->4->3->2->5->NULL
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/reverse-linked-list-ii
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+解题思路
+首先实现完全反转链表的功能，迭代方法；
+再实现大于n以后的不反转；
+进而考虑从第m个开始反转，分m = 1 和 m > 1两种情况；
+如果m = 1;不需要记录反转前的节点位置，直接返回newHead即是需求的链表；
+如果m > 1; 则要记录反转前的节点，然后反转完成后，把反转前的节点指向newHead;
+如果m > 1; 返回时返回备份的原始头节点；
+另外就是初始的一些情况的判断处理。
+代码
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* reverseBetween(struct ListNode* head, int m, int n){
+    if(head == NULL || n == 1 || m == n) return head;
+    struct ListNode *headbk = head;
+    struct ListNode *newHead = NULL;
+    struct ListNode *tmp = NULL;
+    struct ListNode *tail = NULL;
+    struct ListNode *begin = NULL;
+    
+    int i = 1;
+    while(head != NULL) {
+        if(i < m) { 
+            if(i == m -1)
+                begin = head; 
+            head = head->next;          
+        }
+
+        if(i >= m && i <= n) {
+            
+            if(i == m) {
+                tail = head;
+            }
+
+            tmp = head->next;
+            head->next = newHead;
+            newHead = head;
+            head = tmp;
+
+            if(i == n && m > 1) {
+                begin->next = newHead;
+            }
+        } 
+        
+        if(i > n){
+            tail = tail->next = head;
+            head = head->next;    
+        }
+        i++;
+    }
+
+    if(m > 1)
+        return headbk;
+    return newHead;
+}
+
+作者：dmyi
+链接：https://leetcode-cn.com/problems/reverse-linked-list-ii/solution/92-fan-zhuan-lian-biao-2-ti-jie-by-dmyi/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+

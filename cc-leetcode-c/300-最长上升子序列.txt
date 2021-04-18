@@ -1,0 +1,58 @@
+给定一个无序的整数数组，找到其中最长上升子序列的长度。
+
+示例:
+
+输入: [10,9,2,5,3,7,101,18]
+输出: 4 
+解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+说明:
+
+可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
+你算法的时间复杂度应该为 O(n2) 。
+进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/longest-increasing-subsequence
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+解题思路
+dp[i]是以数组元素i结尾的最长上升子序列的个数；
+max保存最长上升子序列的最大值，dp[0] = 1;
+temp = 1 每次i循环初始化为1，用于保存遍历i之前所有dp或dp+1的最大值；
+循环判断保留temp的值为最大值；
+循环判断是否交换max的值；
+max即是最长上升子序列个数。
+代码
+
+int lengthOfLIS(int* nums, int numsSize){
+    if(nums == NULL || numsSize == 0) return 0;
+
+    int *dp = (int *)malloc(sizeof(int) * numsSize);
+    int i,j,max,temp;
+    dp[0] = 1;
+    max = 1;
+
+    for(i = 1; i <= numsSize - 1; i++) {
+
+        temp = 1;
+        for(j = 0; j < i; j++) {
+            if(nums[i] > nums[j]) {
+                dp[i] = dp[j] + 1;
+                if(dp[i] > temp)
+                    temp = dp[i];                   
+            }                
+        }
+    
+        dp[i] = temp;
+        if(dp[i] > max)
+            max = dp[i];
+    }
+
+    free(dp);
+    return max;
+}
+
+作者：dmyi
+链接：https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/300-zui-chang-shang-sheng-zi-xu-lie-ti-jie-by-dmyi/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
